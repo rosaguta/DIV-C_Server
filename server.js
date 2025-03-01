@@ -72,8 +72,16 @@ io.on('connection', (socket) => {
     }
     chatRooms[roomName].push(message);
     console.log(chatRooms[roomName])
-    socket.broadcast.to(roomName).emit('message', chatRooms[roomName]);
+    socket.emit('message', chatRooms[roomName]);
   });
+  socket.on('messages',(roomName)=>{
+    if (!chatRooms[roomName]) {
+      chatRooms[roomName] = [];
+    }
+    console.log("sending messages of room",roomName)
+    console.log("messages of room",roomName,":",chatRooms[roomName])
+    socket.emit('message', chatRooms[roomName])
+  })
 
   socket.on('leave', (roomName) => {
     socket.leave(roomName);
