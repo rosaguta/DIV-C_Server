@@ -32,10 +32,6 @@ io.on('connection', (socket) => {
       roomSize: room ? room.size : 0
     });
 
-    // Initialize room structures if they don't exist
-    if (!chatRooms[roomName]) {
-      chatRooms[roomName] = [];
-    }
     
     if (!roomParticipants[roomName]) {
       roomParticipants[roomName] = {};
@@ -162,7 +158,6 @@ io.on('connection', (socket) => {
       if (Object.keys(roomParticipants[roomName]).length === 0) {
         delete roomParticipants[roomName];
         // Note: We're keeping chat history, but you could delete it here too
-        // delete chatRooms[roomName];
       }
     }
     
