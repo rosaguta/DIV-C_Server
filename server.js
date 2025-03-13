@@ -15,7 +15,6 @@ const io = new Server(server, {
 });
 
 const MAX_CLIENTS_PER_ROOM = 10; // Maximum number of clients per room
-const chatRooms = {}; // Store chat messages for each room
 const roomParticipants = {}; // Store participants data for each room
 
 // Socket.IO handlers
@@ -132,31 +131,6 @@ io.on('connection', (socket) => {
       answer: answerData.answer,
       from: socket.id
     });
-  });
-
-  // Triggered when a user sends a message
-  socket.on('message', (message, roomName) => {
-    if (!chatRooms[roomName]) {
-      chatRooms[roomName] = [];
-    }
-    
-    const formattedMessage = `${roomParticipants[roomName]?.[socket.id]?.username || socket.id}: ${message}`;
-    chatRooms[roomName].push(formattedMessage);
-    
-    console.log(`New message in ${roomName}: ${formattedMessage}`);
-    
-    // Broadcast message to everyone in the room including sender
-    io.in(roomName).emit('message', chatRooms[roomName]);
-  });
-
-  // Get all messages for a room
-  socket.on('messages', (roomName) => {
-    if (!chatRooms[roomName]) {
-      chatRooms[roomName] = [];
-    }
-    
-    console.log(`Sending messages for room ${roomName}`);
-    socket.emit('message', chatRooms[roomName]);
   });
 
   // Leave room
