@@ -11,13 +11,13 @@ jobs:
   Test:
     runs-on: ubuntu-latest
     steps:
-      - uses: action/checkout@v4
+     - uses: action/checkout@v4
 
-      - name: install deps
-        run: npm ci
+     - name: install deps
+       run: npm ci
 
-      - name: run tests
-        run: npm test
+     - name: run tests
+       run: npm test
     
 
   BuildDocker:
