@@ -8,8 +8,22 @@ on:
 #    branches: [ "main" ]
 
 jobs:
-  build:
-    runs-on: div-c-server
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: action/checkout@v4
+
+      - name: install deps
+        run: npm ci
+
+      - name: run tests
+        run: npm test
+    
+
+  BuildDocker:
+    needs: Test
+    name: Build and push Docker image
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
